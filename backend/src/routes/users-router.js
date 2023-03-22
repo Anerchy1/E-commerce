@@ -7,29 +7,29 @@ import {
   updateUser,
 } from "../services/users-service.js";
 
-const router = express.Router();
+const userRouter = express.Router();
 
-router.get("/", async (req, res) => {
+userRouter.get("/", async (req, res) => {
   res.json(await getUsers());
 });
-router.get("/:id", async (req, res) => {
+userRouter.get("/:id", async (req, res) => {
   const { id } = req.params;
   res.json(await getOneUser(id));
 });
 
-router.post("/", async (req, res) => {
+userRouter.post("/", async (req, res) => {
   const user = req.body;
   res.json(await createUser(user));
 });
 
-router.put("/:id", async (req, res) => {
+userRouter.put("/:id", async (req, res) => {
   const { id } = req.params;
   const user = req.body;
   res.json(await updateUser(id, user));
 });
 
-router.delete("/:id", async (req, res) => {
+userRouter.delete("/:id", async (req, res) => {
   const { id } = req.params;
   res.json(await deleteUser(id));
 });
-export default router;
+export default userRouter;

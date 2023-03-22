@@ -3,9 +3,11 @@ import cors from "cors";
 import mongoose from "mongoose";
 import userRouter from "./routes/users-router.js";
 import multer from "multer";
-import { nanoid } from "nanoid";
+// import { nanoid } from "nanoid";
+import { v4 as uuidv4 } from "uuid";
 import cloudinary from "cloudinary";
 import "./config/cloudinary-config.js";
+import userRoleRouter from "./routes/userRole-router.js";
 
 const PORT = 8050;
 const app = express();
@@ -19,7 +21,7 @@ const storage = multer.diskStorage({
   },
   filename: (req, file, cb) => {
     //hadgalah neriig random bolgon solij baina
-    const fileName = nanoid();
+    const fileName = uuidv4();
     const splittedPath = file.originalname.split(".");
     const fileExtension = splittedPath[splittedPath.length - 1];
     console.log(fileExtension);
@@ -61,6 +63,7 @@ mongoose
 
 app.use(express.json());
 app.use("/api/users", userRouter);
+app.use("/api/userRole", userRoleRouter);
 
 app.post("/files", upload.single("image"), async (req, res) => {
   const uploadedFile = await cloudinary.v2.uploader.upload(req.file.path);

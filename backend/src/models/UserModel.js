@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+import mongoose, { Schema, SchemaType } from "mongoose";
 
 export const User = {
   email: {
@@ -8,6 +8,14 @@ export const User = {
   name: {
     type: String,
     required: true,
+  },
+  role: {
+    type: Schema.Types.ObjectId,
+    ref: "UserRole",
+  },
+  roles: {
+    type: [Schema.Types.ObjectId],
+    ref: "UserRole",
   },
 };
 
