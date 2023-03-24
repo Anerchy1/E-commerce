@@ -17,6 +17,7 @@ export const User = {
     type: [Schema.Types.ObjectId],
     ref: "UserRole",
   },
+  password: String,
 };
 
 export const UserSchema = new mongoose.Schema(User, { timestamps: true });

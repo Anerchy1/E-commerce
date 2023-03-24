@@ -8,6 +8,7 @@ import { v4 as uuidv4 } from "uuid";
 import cloudinary from "cloudinary";
 import "./config/cloudinary-config.js";
 import userRoleRouter from "./routes/userRole-router.js";
+import { signInUser, signUpUser } from "./services/users-service.js";
 
 const PORT = 8050;
 const app = express();
@@ -64,6 +65,24 @@ mongoose
 app.use(express.json());
 app.use("/api/users", userRouter);
 app.use("/api/userRole", userRoleRouter);
+
+app.post("/api/signup", async (req, res) => {
+  const { email, password, repassword } = req.body;
+  if (password !== repassword) {
+    return res
+      .status(400)
+      .json({ success: false, message: "Password did not match" });
+  }
+  const user = await signUpUser({ email, password });
+  console.log(user);
+  return res.status(200).json({ success: true, message: "Sign Up successful" });
+});
+
+app.post("/api/signin", async (req, res) => {
+  const { email, password } = req.body;
+  const response = await signInUser({ email, password });
+  res.status(response.status).json(response);
+});
 
 app.post("/files", upload.single("image"), async (req, res) => {
   const uploadedFile = await cloudinary.v2.uploader.upload(req.file.path);

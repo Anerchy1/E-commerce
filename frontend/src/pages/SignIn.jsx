@@ -29,7 +29,9 @@ export const SignIn = () => {
         Submit
       </Button>
       <div className="d-flex mt-3">
-        <p className="me-3">Don't have an account?</p>
+        <p className="me-3" style={{ opacity: 0.7 }}>
+          Don't have an account?
+        </p>
 
         <Link
           to={"/signup"}
