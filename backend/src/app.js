@@ -9,6 +9,9 @@ import cloudinary from "cloudinary";
 import "./config/cloudinary-config.js";
 import userRoleRouter from "./routes/userRole-router.js";
 import { signInUser, signUpUser } from "./services/users-service.js";
+import createRestaurant, {
+  findNearest,
+} from "./services/restaurant-service.js";
 
 const PORT = 8050;
 const app = express();
@@ -93,6 +96,18 @@ app.use("/uploads/", express.static("uploads"));
 
 app.get("/api", (req, res) => {
   res.json("hi");
+});
+
+app.post("/restaurants", async (req, res) => {
+  const { name, location } = req.body;
+  const response = await createRestaurant({ name, location });
+  res.json(response);
+});
+
+app.get("/restaurants", async (req, res) => {
+  const { longitude, latitude } = req.body;
+  const response = await findNearest([longitude, latitude]);
+  res.json(response);
 });
 
 app.listen(PORT, () => {
